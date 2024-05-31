@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,7 +57,7 @@ public class FornecedorController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFornecedor(@PathVariable String id) {
         Optional<Fornecedor> fornecedor = fornecedorService.findByIdFornecedor(id);
         if (fornecedor.isPresent()) {
