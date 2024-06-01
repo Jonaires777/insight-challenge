@@ -7,16 +7,12 @@ import java.util.Date;
 
 import com.application.backend.model.Endereco;
 import com.application.backend.model.Fornecedor;
-import com.application.backend.repositories.EnderecoRepository;
 import com.application.backend.repositories.FornecedorRepository;
 
 public class Config implements CommandLineRunner {
 
     @Autowired
     private FornecedorRepository fornecedorRepository;
-
-    @Autowired
-    private EnderecoRepository enderecoRepository;
 
     @Override
     public void run(String... args) throws Exception {
