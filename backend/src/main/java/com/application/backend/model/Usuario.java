@@ -1,5 +1,6 @@
 package com.application.backend.model;
 
+import java.util.Date;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
@@ -20,7 +21,8 @@ public class Usuario {
     private String name;
     private String email;
     private String password;
-    
+    private Date created;
+
     @DBRef
     @Builder.Default
     private List<Fornecedor> fornecedores = null;
