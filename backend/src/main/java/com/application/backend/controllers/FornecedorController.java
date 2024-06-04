@@ -32,7 +32,7 @@ public class FornecedorController {
         return ResponseEntity.ok(fornecedores);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Fornecedor> createFornecedor(FornecedorDTO fornecedorDTO) {
         Fornecedor fornecedor = fornecedorService.createFornecedor(fornecedorDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(fornecedor);
@@ -47,7 +47,7 @@ public class FornecedorController {
         return ResponseEntity.notFound().build();
     }
     
-    @PutMapping
+    @PutMapping("/edit")
     public ResponseEntity<Fornecedor> updateFornecedor(@RequestBody FornecedorDTO fornecedorDTO) {
         Optional<Fornecedor> fornecedor = fornecedorService.findByIdFornecedor(fornecedorDTO.getId());
         if (fornecedor.isPresent()) {

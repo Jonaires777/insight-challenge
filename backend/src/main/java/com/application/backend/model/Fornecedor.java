@@ -1,6 +1,6 @@
 package com.application.backend.model;
 
-import java.util.Date;
+import java.io.Serializable;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "fornecedor_entidade")
-public class Fornecedor {
+public class Fornecedor implements Serializable {
     
     @Id
     private String id;
@@ -24,11 +24,8 @@ public class Fornecedor {
     private String email;
     private String celular;
     private String nomeRepresentante;
-    private String telefoneRepresentante;
-    private String emailRepresentante;
-    private String segmentoAtuacao;
     private String produtosServicos;
-    private Date dataCadastro;
-    private Endereco endereco;
+    private String dataCadastro;
+    private String endereco;
     
 }

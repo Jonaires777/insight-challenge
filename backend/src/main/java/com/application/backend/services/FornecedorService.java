@@ -57,28 +57,24 @@ public class FornecedorService {
 
     private Fornecedor dtoMapperToEntity(FornecedorDTO fornecedorDTO) {
         return Fornecedor.builder().id(fornecedorDTO.getId()).nome(fornecedorDTO.getNome())
-                .celular(fornecedorDTO.getCelular()).cnpjCpf(fornecedorDTO.getCnpjCpf()).dataCadastro(new Date())
-                .email(fornecedorDTO.getEmail()).emailRepresentante(fornecedorDTO.getEmailRepresentante())
-                .endereco(fornecedorDTO.getEndereco()).nomeRepresentante(fornecedorDTO.getNomeRepresentante())
-                .produtosServicos(fornecedorDTO.getProdutosServicos())
-                .segmentoAtuacao(fornecedorDTO.getSegmentoAtuacao())
-                .telefoneRepresentante(fornecedorDTO.getTelefoneRepresentante()).build();
+                .celular(fornecedorDTO.getCelular()).cnpjCpf(fornecedorDTO.getCnpjCpf()).dataCadastro(new Date().toString())
+                .email(fornecedorDTO.getEmail())
+                .endereco("").nomeRepresentante(fornecedorDTO.getNomeRepresentante())
+                .produtosServicos(fornecedorDTO.getProdutosServicos()).build();
     }
 
     private Fornecedor updatFornecedorFromFornecedorDTO(Fornecedor fornecedor, FornecedorDTO fornecedorDTO) {
         
+        fornecedor.setId(fornecedorDTO.getId());
         fornecedor.setCelular(fornecedorDTO.getCelular());
         fornecedor.setCnpjCpf(fornecedorDTO.getCnpjCpf());
-        fornecedor.setDataCadastro(new Date());
+        fornecedor.setDataCadastro(new Date().toString());
         fornecedor.setEmail(fornecedorDTO.getEmail());
-        fornecedor.setEmailRepresentante(fornecedorDTO.getEmailRepresentante());
         fornecedor.setEndereco(fornecedorDTO.getEndereco());
         fornecedor.setId(fornecedorDTO.getId());
         fornecedor.setNome(fornecedorDTO.getNome());
         fornecedor.setNomeRepresentante(fornecedorDTO.getNomeRepresentante());
-        fornecedor.setSegmentoAtuacao(fornecedorDTO.getSegmentoAtuacao());
         fornecedor.setProdutosServicos(fornecedorDTO.getProdutosServicos());
-        fornecedor.setTelefoneRepresentante(fornecedorDTO.getTelefoneRepresentante());
 
         return fornecedor;
     }
