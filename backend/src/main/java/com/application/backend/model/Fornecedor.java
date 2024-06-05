@@ -1,6 +1,7 @@
 package com.application.backend.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -28,4 +29,14 @@ public class Fornecedor implements Serializable {
     private String dataCadastro;
     private String endereco;
     
+    public Fornecedor(String nome, String cnpjCpf, String email, String celular, String nomeRepresentante, String produtosServicos, String endereco){
+        this.nome = nome;
+        this.cnpjCpf = cnpjCpf;
+        this.dataCadastro = new Date().toString();
+        this.celular = celular;
+        this.email = email;
+        this.endereco = endereco;
+        this.nomeRepresentante = nomeRepresentante;
+        this.produtosServicos = produtosServicos;
+    }
 }

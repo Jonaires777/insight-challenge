@@ -55,25 +55,23 @@ public class FornecedorService {
     }
 
     public Fornecedor dtoMapperToEntity(FornecedorDTO fornecedorDTO) {
-        return Fornecedor.builder().id(fornecedorDTO.getId()).nome(fornecedorDTO.getNome())
-                .celular(fornecedorDTO.getCelular()).cnpjCpf(fornecedorDTO.getCnpjCpf())
-                .dataCadastro(new Date().toString())
-                .email(fornecedorDTO.getEmail())
-                .endereco(fornecedorDTO.getEndereco()).nomeRepresentante(fornecedorDTO.getNomeRepresentante())
-                .produtosServicos(fornecedorDTO.getProdutosServicos()).build();
+        return Fornecedor.builder().celular(fornecedorDTO.getCelular()).cnpjCpf(fornecedorDTO.getCnpjCpf())
+                .email(fornecedorDTO.getEmail()).endereco(fornecedorDTO.getEndereco()).nome(fornecedorDTO.getNome())
+                .nomeRepresentante(fornecedorDTO.getNomeRepresentante())
+                .produtosServicos(fornecedorDTO.getProdutosServicos()).dataCadastro(new Date().toString()).build();
     }
 
-    private Fornecedor updateOldFornecedor(Fornecedor newfornecedor, Fornecedor fornecedor) {
+    private Fornecedor updateOldFornecedor(Fornecedor oldFornecedor, Fornecedor fornecedor) {
 
-        newfornecedor.setCelular(fornecedor.getCelular());
-        newfornecedor.setCnpjCpf(fornecedor.getCnpjCpf());
-        newfornecedor.setDataCadastro(new Date().toString());
-        newfornecedor.setEmail(fornecedor.getEmail());
-        newfornecedor.setEndereco(fornecedor.getEndereco());
-        newfornecedor.setNome(fornecedor.getNome());
-        newfornecedor.setNomeRepresentante(fornecedor.getNomeRepresentante());
-        newfornecedor.setProdutosServicos(fornecedor.getProdutosServicos());
+        oldFornecedor.setCelular(fornecedor.getCelular());
+        oldFornecedor.setCnpjCpf(fornecedor.getCnpjCpf());
+        oldFornecedor.setDataCadastro(new Date().toString());
+        oldFornecedor.setEmail(fornecedor.getEmail());
+        oldFornecedor.setEndereco(fornecedor.getEndereco());
+        oldFornecedor.setNome(fornecedor.getNome());
+        oldFornecedor.setNomeRepresentante(fornecedor.getNomeRepresentante());
+        oldFornecedor.setProdutosServicos(fornecedor.getProdutosServicos());
 
-        return fornecedor;
+        return oldFornecedor;
     }
 }

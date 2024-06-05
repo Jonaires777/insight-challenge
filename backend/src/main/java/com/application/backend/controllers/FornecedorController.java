@@ -53,12 +53,11 @@ public class FornecedorController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Fornecedor> updateFornecedor(@RequestBody FornecedorDTO fornecedorDTO,
-            @PathVariable String id) {
+    public ResponseEntity<Fornecedor> updateFornecedor(@RequestBody FornecedorDTO fornecedorDTO, @PathVariable String id) {
         Fornecedor fornecedor = fornecedorService.dtoMapperToEntity(fornecedorDTO);
         fornecedor.setId(id);
-        fornecedor = fornecedorService.updateFornecedor(fornecedor);
-        return ResponseEntity.ok().body(fornecedor);
+        Fornecedor updatedFornecedor = fornecedorService.updateFornecedor(fornecedor);
+        return ResponseEntity.ok().body(updatedFornecedor);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
