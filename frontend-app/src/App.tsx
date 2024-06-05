@@ -1,23 +1,15 @@
 import React, { useState } from "react";
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  EyeOutlined,
-  LinkedinOutlined,
-  GithubOutlined,
-  InstagramOutlined,
   FileAddOutlined,
 } from "@ant-design/icons";
-import { Button, Layout, Menu, theme } from "antd";
-import { Footer } from "antd/es/layout/layout";
-import Link from "antd/es/typography/Link";
+import { Layout, Menu, theme } from "antd";
 import Fornecedores from "./components/layout/Fornecedores";
 import { useNavigate } from "react-router-dom";
 import { Fornecedor } from "./services/FornecedorService";
+import CommomHeader from "./components/common/CommomHeader";
+import CommomFooter from "./components/common/CommomFooter";
 
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -46,40 +38,13 @@ const App: React.FC = () => {
               key: "1",
               icon: <FileAddOutlined />,
               label: "Adicionar",
-              onClick: () => handleNavigate("/api/fornecedores"),
-            },
-            {
-              key: "2",
-              icon: <EditOutlined />,
-              label: "Editar",
-              onClick: () => handleNavigate("/api/edit/:id"),
-            },
-            {
-              key: "3",
-              icon: <EyeOutlined />,
-              label: "Visualizar",
-              onClick: () => handleNavigate("/api/fornecedor/:id"),
+              onClick: () => handleNavigate("/api/create"),
             },
           ]}
         />
       </Sider>
       <Layout>
-        <Header
-          className="flex gap-4"
-          style={{ padding: 0, background: colorBgContainer }}
-        >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "16px",
-              width: 64,
-              height: 64,
-            }}
-          />
-          <h1>Insight HUB</h1>
-        </Header>
+        <CommomHeader collapsed={collapsed} setCollapsed={setCollapsed}/>
         <Content
           style={{
             margin: "24px 16px",
@@ -88,28 +53,14 @@ const App: React.FC = () => {
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}
+          className="border-2"
         >
           <Fornecedores
             fornecedores={fornecedores}
             setFornecedores={setFornecedores}
           />
         </Content>
-        <Footer>
-          <div className="flex gap-2 items-center justify-center">
-            <Link className="flex gap-2 items-center">
-              <p>Linkedin</p>
-              <LinkedinOutlined size={24} />
-            </Link>
-            <Link className="flex gap-2 items-center">
-              <p>Github</p>
-              <GithubOutlined size={24} />
-            </Link>
-            <Link className="flex gap-2 items-center">
-              <p>Instagram</p>
-              <InstagramOutlined size={24} />{" "}
-            </Link>
-          </div>
-        </Footer>
+        <CommomFooter />
       </Layout>
     </Layout>
   );

@@ -13,7 +13,7 @@ const router = createBrowserRouter([
     element: <App />
   },
   {
-    path: "/api/fornecedores",
+    path: "/api/create",
     element: <NewFornecedor />
   },
   {

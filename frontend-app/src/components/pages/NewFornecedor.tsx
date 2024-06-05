@@ -1,124 +1,192 @@
-import React from "react";
-import type { FormProps } from "antd";
-import { Button, Form, Input, Layout, theme } from "antd";
-import { Content, Footer, Header } from "antd/es/layout/layout";
-import Link from "antd/es/typography/Link";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import { Button, Form, Input, Layout, Menu, message, Space, theme } from "antd";
+import { Content } from "antd/es/layout/layout";
 import { useNavigate } from "react-router-dom";
-import {
-  GithubOutlined,
-  InstagramOutlined,
-  LinkedinOutlined,
-} from "@ant-design/icons";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import Sider from "antd/es/layout/Sider";
+import SubmitButton from "../common/SubmitButton";
+import CommomFooter from "../common/CommomFooter";
+import CommomHeader from "../common/CommomHeader";
+import fornecedorService, { Fornecedor } from "../../services/FornecedorService";
 
-type FieldType = {
-  username?: string;
-  password?: string;
+type FormData = {
+  nome: string;
+  cnpjCpf: string;
+  email: string;
+  celular: string;
+  produtosServicos: string;
+  endereco: string;
+  nomeRepresentante: string;
 };
 
-const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-  console.log("Success:", values);
-};
+interface NewFornecedorProps {
+  setfornecedores: Dispatch<SetStateAction<Fornecedor[]>>
+}
 
-const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
-  console.log("Failed:", errorInfo);
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 6 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 14 },
+  },
 };
 
 const NewFornecedor: React.FC = () => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const [collapsed, setCollapsed] = useState(false);
+  const [submittable, setSubmittable] = useState<boolean>(false);
 
+  const [form] = Form.useForm();
   const navigate = useNavigate();
+
+  const handleNavigate = (link: string) => {
+    navigate(link);
+  };
+
+  const handleSubmit = async (values: FormData) => {
+    try {
+      await fornecedorService.createFornecedor(values)
+      message.success("Fornecedor criado com sucesso!");
+    } catch (error) {
+      message.error("Erro ao criar fornecedor!")
+    }
+  }
 
   return (
     <Layout className="min-h-screen">
-      <Header
-        className="flex gap-4 border-b-2"
-        style={{ padding: 0, background: colorBgContainer }}
-      >
-        <h1 onClick={() => navigate("/")} className="pl-2 hover:text-sky-500 cursor-pointer">Voltar</h1>
-      </Header>
-      <Content
-        className=""
-        style={{
-          margin: "24px 16px",
-          padding: 24,
-          minHeight: 280,
-          
-          background: colorBgContainer,
-          borderRadius: borderRadiusLG,
-        }}
-      >
-        <Form
-          name="basic"
-          wrapperCol={{ offset: 2, span: 20 }}
-          style={{ maxWidth: 600 }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-          className="flex flex-col justify-center m-auto overflow-y-auto"
-        >
-          <h1 className="m-auto text-2xl">Cadastre um Fornecedor</h1>
-          <Form.Item<FieldType>
-            name="username"
-            rules={[{ required: true, message: "Please input your username!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item<FieldType>
-            name="username"
-            rules={[{ required: true, message: "Please input your username!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item<FieldType>
-            name="username"
-            rules={[{ required: true, message: "Please input your username!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item<FieldType>
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password />
-          </Form.Item>
-          <Form.Item<FieldType>
-            name="username"
-            rules={[{ required: true, message: "Please input your username!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item<FieldType>
-            name="username"
-            rules={[{ required: true, message: "Please input your username!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
-            <Button type="primary" htmlType="submit">
-              Enviar
-            </Button>
-          </Form.Item>
-        </Form>
-      </Content>
-      <Footer className="border-t-2">
-        <div className="flex gap-2 items-center justify-center">
-          <Link className="flex gap-2 items-center">
-            <p>Linkedin</p>
-            <LinkedinOutlined size={24} />
-          </Link>
-          <Link className="flex gap-2 items-center">
-            <p>Github</p>
-            <GithubOutlined size={24} />
-          </Link>
-          <Link className="flex gap-2 items-center">
-            <p>Instagram</p>
-            <InstagramOutlined size={24} />{" "}
-          </Link>
-        </div>
-      </Footer>
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+        <div />
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={["1"]}
+          items={[
+            {
+              key: "1",
+              icon: <ArrowLeftOutlined />,
+              label: "Voltar",
+              onClick: () => handleNavigate("/"),
+            },
+          ]}
+        />
+      </Sider>
+      <Layout>
+        <CommomHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+        <Content className="flex justify-center">
+          <div className="flex flex-col justify-center w-2/4 ">
+            <div>
+              <Form
+                form={form}
+                {...formItemLayout}
+                variant="filled"
+                style={{ maxWidth: 600 }}
+                className="border-2 p-2 rounded-md"
+                onFinish={handleSubmit}
+              >
+                <Form.Item
+                  label="Nome"
+                  name="nome"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Por favor, preencha este campo!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Por favor, preencha este campo!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="CPF/CNPJ"
+                  name="cnpjCpf"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Por favor, preencha este campo!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Celular"
+                  name="celular"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Por favor, preencha este campo!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Produtos/Serviços"
+                  name="produtosServicos"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Por favor, preencha este campo!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Endereço"
+                  name="endereco"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Por favor, preencha este campo!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Representante"
+                  name="nomeRepresentante"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Por favor, preencha este campo!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+                  <Space>
+                    <SubmitButton
+                      form={form}
+                      setSubmittable={setSubmittable}
+                      submittable={submittable}
+                    >
+                      Criar
+                    </SubmitButton>
+                    <Button htmlType="reset">Limpar</Button>
+                  </Space>
+                </Form.Item>
+              </Form>
+            </div>
+          </div>
+        </Content>
+        <CommomFooter />
+      </Layout>
     </Layout>
   );
 };

@@ -19,11 +19,11 @@ type CreateRequest = {
   celular: string;
   nomeRepresentante: string;
   produtosServicos: string;
-  dataCadastro: string;
   endereco: string;
 };
 
 type EditRequest = {
+  id: string | undefined;
   nome: string;
   cnpjCpf: string;
   email: string;
@@ -37,10 +37,20 @@ const createFornecedor = async (
   createRequest: CreateRequest
 ): Promise<Fornecedor> => {
   try {
+    console.log(createRequest);
     const response = await apiProvider.post<Fornecedor, CreateRequest>(
       "/api/fornecedores/create",
-      createRequest
+      {
+        nome: createRequest.nome,
+        celular: createRequest.celular,
+        cnpjCpf: createRequest.cnpjCpf,
+        email: createRequest.email,
+        endereco: createRequest.endereco,
+        nomeRepresentante: createRequest.nomeRepresentante,
+        produtosServicos: createRequest.produtosServicos,
+      }
     );
+    console.log(response)
     return response;
   } catch (error) {
     throw error;
@@ -73,7 +83,7 @@ const editFornecedor = async (
 ): Promise<Fornecedor> => {
   try {
     const response = await apiProvider.put<Fornecedor, EditRequest>(
-      "/api/fornecedores",
+      `/api/fornecedores/edit/${editRequest.id}`,
       editRequest
     );
     return response;

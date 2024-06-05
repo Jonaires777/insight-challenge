@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { BASE_URL } from "../utils/constants"
+import { BASE_URL } from "../utils/constants";
 
 class ApiProvider {
   private instance;
@@ -55,7 +55,6 @@ class ApiProvider {
   ): Promise<T> {
     try {
       const response = await this.instance.delete<T>(path, options);
-
       return response.data;
     } catch (error) {
       throw error;
