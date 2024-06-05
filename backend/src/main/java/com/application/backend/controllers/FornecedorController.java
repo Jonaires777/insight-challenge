@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,18 +27,21 @@ public class FornecedorController {
     @Autowired
     private FornecedorService fornecedorService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public ResponseEntity<List<Fornecedor>> getAllFornecedores() {
         List<Fornecedor> fornecedores = fornecedorService.findAllFornecedores();
         return ResponseEntity.ok(fornecedores);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/create")
-    public ResponseEntity<Fornecedor> createFornecedor(FornecedorDTO fornecedorDTO) {
+    public ResponseEntity<Fornecedor> createFornecedor(@RequestBody FornecedorDTO fornecedorDTO) {
         Fornecedor fornecedor = fornecedorService.createFornecedor(fornecedorDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(fornecedor);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     public ResponseEntity<Fornecedor> getFornecedorById(@PathVariable String id) {
         Optional<Fornecedor> fornecedor = fornecedorService.findByIdFornecedor(id);
@@ -46,17 +50,18 @@ public class FornecedorController {
         }
         return ResponseEntity.notFound().build();
     }
-    
-    @PutMapping("/edit")
-    public ResponseEntity<Fornecedor> updateFornecedor(@RequestBody FornecedorDTO fornecedorDTO) {
-        Optional<Fornecedor> fornecedor = fornecedorService.findByIdFornecedor(fornecedorDTO.getId());
-        if (fornecedor.isPresent()) {
-            Fornecedor updatedFornecedor = fornecedorService.updateFornecedor(fornecedorDTO);
-            return ResponseEntity.ok(updatedFornecedor);
-        }
-        return ResponseEntity.notFound().build();
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Fornecedor> updateFornecedor(@RequestBody FornecedorDTO fornecedorDTO,
+            @PathVariable String id) {
+        Fornecedor fornecedor = fornecedorService.dtoMapperToEntity(fornecedorDTO);
+        fornecedor.setId(id);
+        fornecedor = fornecedorService.updateFornecedor(fornecedor);
+        return ResponseEntity.ok().body(fornecedor);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFornecedor(@PathVariable String id) {
         Optional<Fornecedor> fornecedor = fornecedorService.findByIdFornecedor(id);

@@ -35,15 +35,14 @@ public class FornecedorService {
         }
     }
 
-    public Fornecedor updateFornecedor(FornecedorDTO fornecedorDTO) {
-        Optional<Fornecedor> fornecedor = fornecedorRepository.findById(fornecedorDTO.getId());
-        if (fornecedor.isPresent()) {
-            Fornecedor newFornecedor = fornecedor.get();
-            newFornecedor = updatFornecedorFromFornecedorDTO(newFornecedor, fornecedorDTO);
-            fornecedorRepository.save(newFornecedor);
-            return newFornecedor;
+    public Fornecedor updateFornecedor(Fornecedor fornecedor) {
+        Optional<Fornecedor> oldFornecedor = fornecedorRepository.findById(fornecedor.getId());
+        if (oldFornecedor.isPresent()) {
+            Fornecedor updatedFornecedor = updateOldFornecedor(oldFornecedor.get(), fornecedor);
+            fornecedorRepository.save(updatedFornecedor);
+            return updatedFornecedor;
         } else {
-            throw new DbException("O fornecedor com o id " + fornecedorDTO.getId() + " nao foi encontrado");
+            throw new DbException("O fornecedor com o id " + fornecedor.getId() + " nao foi encontrado");
         }
     }
 
@@ -55,26 +54,25 @@ public class FornecedorService {
         }
     }
 
-    private Fornecedor dtoMapperToEntity(FornecedorDTO fornecedorDTO) {
+    public Fornecedor dtoMapperToEntity(FornecedorDTO fornecedorDTO) {
         return Fornecedor.builder().id(fornecedorDTO.getId()).nome(fornecedorDTO.getNome())
-                .celular(fornecedorDTO.getCelular()).cnpjCpf(fornecedorDTO.getCnpjCpf()).dataCadastro(new Date().toString())
+                .celular(fornecedorDTO.getCelular()).cnpjCpf(fornecedorDTO.getCnpjCpf())
+                .dataCadastro(new Date().toString())
                 .email(fornecedorDTO.getEmail())
-                .endereco("").nomeRepresentante(fornecedorDTO.getNomeRepresentante())
+                .endereco(fornecedorDTO.getEndereco()).nomeRepresentante(fornecedorDTO.getNomeRepresentante())
                 .produtosServicos(fornecedorDTO.getProdutosServicos()).build();
     }
 
-    private Fornecedor updatFornecedorFromFornecedorDTO(Fornecedor fornecedor, FornecedorDTO fornecedorDTO) {
-        
-        fornecedor.setId(fornecedorDTO.getId());
-        fornecedor.setCelular(fornecedorDTO.getCelular());
-        fornecedor.setCnpjCpf(fornecedorDTO.getCnpjCpf());
-        fornecedor.setDataCadastro(new Date().toString());
-        fornecedor.setEmail(fornecedorDTO.getEmail());
-        fornecedor.setEndereco(fornecedorDTO.getEndereco());
-        fornecedor.setId(fornecedorDTO.getId());
-        fornecedor.setNome(fornecedorDTO.getNome());
-        fornecedor.setNomeRepresentante(fornecedorDTO.getNomeRepresentante());
-        fornecedor.setProdutosServicos(fornecedorDTO.getProdutosServicos());
+    private Fornecedor updateOldFornecedor(Fornecedor newfornecedor, Fornecedor fornecedor) {
+
+        newfornecedor.setCelular(fornecedor.getCelular());
+        newfornecedor.setCnpjCpf(fornecedor.getCnpjCpf());
+        newfornecedor.setDataCadastro(new Date().toString());
+        newfornecedor.setEmail(fornecedor.getEmail());
+        newfornecedor.setEndereco(fornecedor.getEndereco());
+        newfornecedor.setNome(fornecedor.getNome());
+        newfornecedor.setNomeRepresentante(fornecedor.getNomeRepresentante());
+        newfornecedor.setProdutosServicos(fornecedor.getProdutosServicos());
 
         return fornecedor;
     }

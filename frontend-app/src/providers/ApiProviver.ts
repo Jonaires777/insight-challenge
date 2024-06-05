@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { BASE_URL } from "@/src/utils/constants"
+import { BASE_URL } from "../utils/constants"
 
 class ApiProvider {
   private instance;

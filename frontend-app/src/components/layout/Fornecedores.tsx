@@ -1,24 +1,65 @@
 import { Space, Table } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
-import React from "react";
+import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import fornecedorService, {
+  Fornecedor,
+} from "../../services/FornecedorService";
+import FornecedorModal from "./FornecedorModal";
 
-const Fornecedores: React.FC = () => {
-  const fornecedores = [
-    { id: 0, nome: "jhon doe", email: "johndoe@email.com", endereço: "rua bonita" },
-    { id: 1, nome: "jhon doe", email: "johndoe@email.com" ,endereço: "rua bonita"},
-    { id: 2, nome: "jhon doe", email: "johndoe@email.com" ,endereço: "rua bonita"},
-    { id: 3, nome: "jhon doe", email: "johndoe@email.com" ,endereço: "rua bonita"},
-    { id: 4, nome: "jhon doe", email: "johndoe@email.com" ,endereço: "rua bonita"},
-    { id: 5, nome: "jhon doe", email: "johndoe@email.com" ,endereço: "rua bonita"},
-    { id: 6, nome: "jhon doe", email: "johndoe@email.com" ,endereço: "rua bonita"},
-    { id: 7, nome: "jhon doe", email: "johndoe@email.com" ,endereço: "rua bonita"},
-    { id: 8, nome: "jhon doe", email: "johndoe@email.com" ,endereço: "rua bonita"},
-    { id: 9, nome: "jhon doe", email: "johndoe@email.com" ,endereço: "rua bonita"},
-    { id: 10, nome: "jhon doe", email: "johndoe@email.com" ,endereço: "rua bonita"},
-    { id: 11, nome: "jhon doe", email: "johndoe@email.com" ,endereço: "rua bonita"},
-    { id: 12, nome: "jhon doe", email: "johndoe@email.com" ,endereço: "rua bonita"},
-    { id: 13, nome: "jhon doe", email: "johndoe@email.com" ,endereço: "rua bonita"},
-  ];
+type FornecedoresProps = {
+  fornecedores: Fornecedor[] | undefined;
+  setFornecedores: Dispatch<SetStateAction<Fornecedor[] | undefined>>;
+};
+
+const Fornecedores = ({ fornecedores, setFornecedores }: FornecedoresProps) => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [selectedFornecedor, setSeletectedFornecedor] = useState<Fornecedor>();
+
+  useEffect(() => {
+    const fetchAllFornecedores = async () => {
+      try {
+        const response = await fornecedorService.getAllFornecedores();
+        setFornecedores(response);
+      } catch (error) {
+        console.log("Falha ao buscar fornecedores: ", error);
+        throw error;
+      }
+    };
+
+    fetchAllFornecedores();
+  }, []);
+
+  const handleDelete = async (id: string) => {
+    try {
+      await fornecedorService.deleteForecedor(id);
+      setFornecedores((prev) =>
+        prev?.filter((fornecedor) => fornecedor.id != id)
+      );
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleVisualize = async (id: string) => {
+    try {
+      showLoading();
+      const fornecedor = await fornecedorService.getFornecedor(id);
+      setSeletectedFornecedor(fornecedor)
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const showLoading = () => {
+    setOpen(true);
+    setLoading(true);
+
+    // Simple loading mock. You should add cleanup logic in real world.
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
 
   const collumns = [
     {
@@ -32,24 +73,42 @@ const Fornecedores: React.FC = () => {
       key: "email",
     },
     {
+      title: "Produtos/Serviços",
+      dataIndex: "produtosServicos",
+      key: "produtosServicos",
+    },
+    {
       title: "Endereço",
-      dataIndex: "endereço",
-      key: "endereço",
+      dataIndex: "endereco",
+      key: "endereco",
     },
     {
       title: "Ação",
       key: "ação",
-      render: () => (
+      render: (record: Fornecedor) => (
         <Space size="middle">
           <a className="">
-            <DeleteOutlined onClick={() => console.log('deleted')} className="hover:text-red-500"/>{" "}
+            <DeleteOutlined onClick={() => handleDelete(record.id)} />{" "}
+          </a>
+          <a>
+            <EyeOutlined onClick={() => handleVisualize(record.id)} />
           </a>
         </Space>
       ),
     },
   ];
 
-  return <Table dataSource={fornecedores} columns={collumns} />;
+  return (
+    <>
+      <Table dataSource={fornecedores} columns={collumns} />
+      <FornecedorModal
+        content={selectedFornecedor}
+        open={open}
+        loading={loading}
+        setOpen={setOpen}
+      />
+    </>
+  );
 };
 
 export default Fornecedores;

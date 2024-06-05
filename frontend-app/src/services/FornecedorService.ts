@@ -1,55 +1,97 @@
-type Endereco = {
-  street: string;
-};
+import apiProvider from "../providers/ApiProviver";
 
-type FornecedorResponse = {
+export type Fornecedor = {
   id: string;
-  name: string;
+  nome: string;
+  cnpjCpf: string;
   email: string;
-  endereco: Endereco;
+  celular: string;
+  nomeRepresentante: string;
+  produtosServicos: string;
+  dataCadastro: string;
+  endereco: string;
 };
 
-// Promise que retornará todos os fornecedores
-const getAllFornecedores = (): Promise<void> => {
+type CreateRequest = {
+  nome: string;
+  cnpjCpf: string;
+  email: string;
+  celular: string;
+  nomeRepresentante: string;
+  produtosServicos: string;
+  dataCadastro: string;
+  endereco: string;
+};
+
+type EditRequest = {
+  nome: string;
+  cnpjCpf: string;
+  email: string;
+  celular: string;
+  nomeRepresentante: string;
+  produtosServicos: string;
+  endereco: string;
+};
+
+const createFornecedor = async (
+  createRequest: CreateRequest
+): Promise<Fornecedor> => {
   try {
-    // Add your code here
-    return Promise.resolve();
+    const response = await apiProvider.post<Fornecedor, CreateRequest>(
+      "/api/fornecedores/create",
+      createRequest
+    );
+    return response;
   } catch (error) {
     throw error;
   }
 };
 
-// Promise que retornará um fornecedor
-const getFornecedor = (): Promise<void> => {
+const getAllFornecedores = async (): Promise<Fornecedor[]> => {
   try {
-    // Add your code here
-    return Promise.resolve();
+    const response = await apiProvider.get<Fornecedor[]>("/api/fornecedores");
+    return response;
   } catch (error) {
     throw error;
   }
 };
 
-// Promise que retornará um fornecedor editado
-const editFornecedor = (): Promise<void> => {
+const getFornecedor = async (id: string): Promise<Fornecedor> => {
   try {
-    // Add your code here
-    return Promise.resolve();
+    const response = await apiProvider.get<Fornecedor>(
+      `/api/fornecedores/${id}`
+    );
+    return response;
   } catch (error) {
     throw error;
   }
 };
 
-// Promise que retornará um boolean
-const deleteForecedor = (): Promise<void> => {
+// Ainda necessita de revisão
+const editFornecedor = async (
+  editRequest: EditRequest
+): Promise<Fornecedor> => {
   try {
-    // Add your code here
-    return Promise.resolve();
+    const response = await apiProvider.put<Fornecedor, EditRequest>(
+      "/api/fornecedores",
+      editRequest
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteForecedor = async (id: string): Promise<void> => {
+  try {
+    await apiProvider.delete<void>(`/api/fornecedores/${id}`);
   } catch (error) {
     throw error;
   }
 };
 
 const fornecedorService = {
+  createFornecedor,
   getAllFornecedores,
   getFornecedor,
   editFornecedor,

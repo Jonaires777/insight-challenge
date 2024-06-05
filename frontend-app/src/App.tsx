@@ -15,11 +15,13 @@ import { Footer } from "antd/es/layout/layout";
 import Link from "antd/es/typography/Link";
 import Fornecedores from "./components/layout/Fornecedores";
 import { useNavigate } from "react-router-dom";
+import { Fornecedor } from "./services/FornecedorService";
 
 const { Header, Sider, Content } = Layout;
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [fornecedores, setFornecedores] = useState<Fornecedor[]>();
 
   const navigate = useNavigate();
 
@@ -87,7 +89,10 @@ const App: React.FC = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-          <Fornecedores />
+          <Fornecedores
+            fornecedores={fornecedores}
+            setFornecedores={setFornecedores}
+          />
         </Content>
         <Footer>
           <div className="flex gap-2 items-center justify-center">
