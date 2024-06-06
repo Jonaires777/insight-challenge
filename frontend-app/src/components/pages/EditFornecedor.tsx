@@ -95,7 +95,7 @@ const EditFornecedor: React.FC = () => {
                 key: "2",
                 icon: <FileAddOutlined />,
                 label: "Adicionar",
-                onClick: () => handleNavigate("/api/create"),
+                onClick: () => handleNavigate("/create"),
               },
             ]}
           />

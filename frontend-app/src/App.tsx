@@ -38,7 +38,7 @@ const App: React.FC = () => {
               key: "1",
               icon: <FileAddOutlined />,
               label: "Adicionar",
-              onClick: () => handleNavigate("/api/create"),
+              onClick: () => handleNavigate("/create"),
             },
           ]}
         />

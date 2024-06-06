@@ -13,11 +13,11 @@ const router = createBrowserRouter([
     element: <App />
   },
   {
-    path: "/api/create",
+    path: "/create",
     element: <NewFornecedor />
   },
   {
-    path: "/api/edit/:id",
+    path: "/edit/:id",
     element: <EditFornecedor />
   },
 ])

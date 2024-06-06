@@ -44,7 +44,7 @@ const FornecedorModal = ({
         open={open}
         okText={"Editar"}
         cancelText={"Fechar"}
-        onOk={() => navigate(`api/edit/${content?.id}`)}
+        onOk={() => navigate(`/edit/${content?.id}`)}
         onCancel={() => setOpen(false)}
         closeIcon={false}
       >
