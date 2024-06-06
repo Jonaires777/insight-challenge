@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import com.application.backend.exceptions.DbException;
 import com.application.backend.model.Fornecedor;
 import com.application.backend.model.DTOs.FornecedorDTO;
@@ -17,6 +18,8 @@ public class FornecedorService {
 
     @Autowired
     private FornecedorRepository fornecedorRepository;
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
     public Fornecedor createFornecedor(FornecedorDTO fornecedorDTO) {
         Fornecedor fornecedor = dtoMapperToEntity(fornecedorDTO);
@@ -58,14 +61,14 @@ public class FornecedorService {
         return Fornecedor.builder().celular(fornecedorDTO.getCelular()).cnpjCpf(fornecedorDTO.getCnpjCpf())
                 .email(fornecedorDTO.getEmail()).endereco(fornecedorDTO.getEndereco()).nome(fornecedorDTO.getNome())
                 .nomeRepresentante(fornecedorDTO.getNomeRepresentante())
-                .produtosServicos(fornecedorDTO.getProdutosServicos()).dataCadastro(new Date().toString()).build();
+                .produtosServicos(fornecedorDTO.getProdutosServicos()).dataCadastro(sdf.format(new Date())).build();
     }
 
     private Fornecedor updateOldFornecedor(Fornecedor oldFornecedor, Fornecedor fornecedor) {
 
         oldFornecedor.setCelular(fornecedor.getCelular());
         oldFornecedor.setCnpjCpf(fornecedor.getCnpjCpf());
-        oldFornecedor.setDataCadastro(new Date().toString());
+        oldFornecedor.setDataCadastro(sdf.format(new Date()));
         oldFornecedor.setEmail(fornecedor.getEmail());
         oldFornecedor.setEndereco(fornecedor.getEndereco());
         oldFornecedor.setNome(fornecedor.getNome());
