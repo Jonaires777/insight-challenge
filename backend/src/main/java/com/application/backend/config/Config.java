@@ -27,10 +27,10 @@ public class Config implements CommandLineRunner {
 
                 for (int i = 0; i < 1000; i++) {
                         String name = String.valueOf(faker.name().name());
-                        String celular = String.valueOf(faker.phoneNumber().cellPhone());
-                        String cnpjCString = String.valueOf(faker.number().randomNumber(11, false));
+                        String celular = String.valueOf(faker.numerify("(##)9####-####"));
+                        String cnpjCString = String.valueOf(faker.numerify("###.###.###-##"));
                         String produtos = String.valueOf(faker.commerce().department());
-                        String email = String.valueOf(faker.numerify("exe##mplo##@exemplo.com"));
+                        String email = String.valueOf(faker.numerify("###exe####mplo######@exemplo.com"));
                         String endereco = String.valueOf(faker.address().city() + " " + "" + faker.address().state());
                         String date = sdf.format(new Date());
 
