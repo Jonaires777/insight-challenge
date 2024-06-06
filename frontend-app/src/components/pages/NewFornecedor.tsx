@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import { Button, Form, Input, Layout, Menu, message, Space, theme } from "antd";
+import React, { useState } from "react";
+import { Button, Form, Input, Layout, Menu, message, Space } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
@@ -7,7 +7,7 @@ import Sider from "antd/es/layout/Sider";
 import SubmitButton from "../common/SubmitButton";
 import CommomFooter from "../common/CommomFooter";
 import CommomHeader from "../common/CommomHeader";
-import fornecedorService, { Fornecedor } from "../../services/FornecedorService";
+import fornecedorService from "../../services/FornecedorService";
 
 type FormData = {
   nome: string;
@@ -18,10 +18,6 @@ type FormData = {
   endereco: string;
   nomeRepresentante: string;
 };
-
-interface NewFornecedorProps {
-  setfornecedores: Dispatch<SetStateAction<Fornecedor[]>>
-}
 
 const formItemLayout = {
   labelCol: {
@@ -47,16 +43,25 @@ const NewFornecedor: React.FC = () => {
 
   const handleSubmit = async (values: FormData) => {
     try {
-      await fornecedorService.createFornecedor(values)
+      await fornecedorService.createFornecedor(values);
       message.success("Fornecedor criado com sucesso!");
     } catch (error) {
-      message.error("Erro ao criar fornecedor!")
+      message.error("Erro ao criar fornecedor!");
     }
-  }
+  };
 
   return (
     <Layout className="min-h-screen">
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        breakpoint="sm"
+        collapsedWidth="60"
+        onBreakpoint={(broken) => {
+          setCollapsed(broken);
+        }}
+      >
         <div />
         <Menu
           theme="dark"
@@ -74,8 +79,8 @@ const NewFornecedor: React.FC = () => {
       </Sider>
       <Layout>
         <CommomHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        <Content className="flex justify-center">
-          <div className="flex flex-col justify-center w-2/4 ">
+        <Content className="flex justify-center h-2/4 md:h-full">
+          <div className="flex flex-col justify-center md:w-2/4">
             <div>
               <Form
                 form={form}

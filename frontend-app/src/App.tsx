@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import {
-  FileAddOutlined,
-} from "@ant-design/icons";
+import { FileAddOutlined } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
 import Fornecedores from "./components/layout/Fornecedores";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +25,16 @@ const App: React.FC = () => {
 
   return (
     <Layout className="min-h-screen">
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        breakpoint="sm"
+        collapsedWidth="0"
+        onBreakpoint={(broken) => {
+          setCollapsed(broken);
+        }}
+      >
         <div />
         <Menu
           theme="dark"
@@ -44,7 +51,7 @@ const App: React.FC = () => {
         />
       </Sider>
       <Layout>
-        <CommomHeader collapsed={collapsed} setCollapsed={setCollapsed}/>
+        <CommomHeader collapsed={collapsed} setCollapsed={setCollapsed} />
         <Content
           style={{
             margin: "24px 16px",

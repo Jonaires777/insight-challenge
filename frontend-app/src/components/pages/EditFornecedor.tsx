@@ -64,13 +64,13 @@ const EditFornecedor: React.FC = () => {
   const handleSubmit = async (values: FormData) => {
     try {
       const editRequest = {
-        id,  
-        ...values
+        id,
+        ...values,
       };
       await fornecedorService.editFornecedor(editRequest);
       message.success("Fornecedor editado com sucesso!");
     } catch (error) {
-      console.log(error)
+      console.log(error);
       message.error("Erro ao editar fornecedor!");
     }
   };
@@ -78,7 +78,11 @@ const EditFornecedor: React.FC = () => {
   return (
     <div>
       <Layout className="min-h-screen">
-        <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Sider trigger={null} collapsible collapsed={collapsed} breakpoint="sm"
+        collapsedWidth="60"
+        onBreakpoint={(broken) => {
+          setCollapsed(broken);
+        }}>
           <div />
           <Menu
             theme="dark"
@@ -103,7 +107,7 @@ const EditFornecedor: React.FC = () => {
         <Layout>
           <CommomHeader collapsed={collapsed} setCollapsed={setCollapsed} />
           <Content className="flex justify-center">
-            <div className="flex flex-col justify-center w-2/4 ">
+            <div className="flex flex-col justify-center md:w-2/4">
               <div>
                 <Form
                   form={form}

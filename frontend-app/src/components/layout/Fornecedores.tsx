@@ -1,6 +1,7 @@
 import { Space, Table } from "antd";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import type { TableColumnsType } from "antd";
 import fornecedorService, {
   Fornecedor,
 } from "../../services/FornecedorService";
@@ -10,6 +11,19 @@ type FornecedoresProps = {
   fornecedores: Fornecedor[] | undefined;
   setFornecedores: Dispatch<SetStateAction<Fornecedor[] | undefined>>;
 };
+
+interface DataType {
+  key: string;
+  id: string;
+  nome: string;
+  cnpjCpf: string;
+  email: string;
+  celular: string;
+  nomeRepresentante: string;
+  produtosServicos: string;
+  dataCadastro: string;
+  endereco: string;
+}
 
 const Fornecedores = ({ fornecedores, setFornecedores }: FornecedoresProps) => {
   const [open, setOpen] = useState<boolean>(false);
@@ -45,7 +59,7 @@ const Fornecedores = ({ fornecedores, setFornecedores }: FornecedoresProps) => {
     try {
       showLoading();
       const fornecedor = await fornecedorService.getFornecedor(id);
-      setSeletectedFornecedor(fornecedor)
+      setSeletectedFornecedor(fornecedor);
     } catch (error) {
       throw error;
     }
@@ -61,26 +75,30 @@ const Fornecedores = ({ fornecedores, setFornecedores }: FornecedoresProps) => {
     }, 2000);
   };
 
-  const collumns = [
+  const collumns: TableColumnsType<DataType> = [
     {
       title: "Nome",
       dataIndex: "nome",
       key: "nome",
+      responsive: ["md"],
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
+      responsive: ["md"],
     },
     {
       title: "Produtos/Serviços",
       dataIndex: "produtosServicos",
       key: "produtosServicos",
+      responsive: ["md"],
     },
     {
       title: "Endereço",
       dataIndex: "endereco",
       key: "endereco",
+      responsive: ["md"],
     },
     {
       title: "Ação",
@@ -95,12 +113,19 @@ const Fornecedores = ({ fornecedores, setFornecedores }: FornecedoresProps) => {
           </a>
         </Space>
       ),
+      responsive: ["md"],
     },
   ];
 
   return (
     <>
-      <Table dataSource={fornecedores} columns={collumns} />
+      <Table
+        dataSource={fornecedores?.map((fornecedor) => ({
+          ...fornecedor,
+          key: fornecedor.id,
+        }))}
+        columns={collumns}
+      />
       <FornecedorModal
         content={selectedFornecedor}
         open={open}
