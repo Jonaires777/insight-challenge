@@ -8,6 +8,7 @@ import SubmitButton from "../common/SubmitButton";
 import CommomFooter from "../common/CommomFooter";
 import CommomHeader from "../common/CommomHeader";
 import fornecedorService from "../../services/FornecedorService";
+import useWindowSize from "../../hooks/useWindowSize";
 
 type FormData = {
   nome: string;
@@ -25,6 +26,7 @@ const NewFornecedor: React.FC = () => {
 
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const { width } = useWindowSize();
 
   const handleNavigate = (link: string) => {
     navigate(link);
@@ -40,18 +42,18 @@ const NewFornecedor: React.FC = () => {
   };
 
   return (
-    <Layout className="!flex min-h-screen">
+    <Layout className="overflow-x-hidden min-h-screen">
       <Sider
         trigger={null}
         collapsible
         collapsed={collapsed}
         breakpoint="sm"
         collapsedWidth="0"
+        width={width >= 768 ? 200 : 60}
         onBreakpoint={(broken) => {
           setCollapsed(broken);
         }}
       >
-        <div />
         <Menu
           theme="dark"
           mode="inline"
@@ -66,6 +68,7 @@ const NewFornecedor: React.FC = () => {
           ]}
         />
       </Sider>
+      <Layout>
         <CommomHeader collapsed={collapsed} setCollapsed={setCollapsed} />
         <Content className="flex justify-center h-2/4 md:h-full">
           <Flex className="w-full" align="center" justify="center">
@@ -160,8 +163,8 @@ const NewFornecedor: React.FC = () => {
                 >
                   <Input />
                 </Form.Item>
-                <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
-                  <Space>
+                <Form.Item>
+                  <Flex gap={"small"} align="center" justify="center" className="w-full">
                     <SubmitButton
                       form={form}
                       setSubmittable={setSubmittable}
@@ -170,12 +173,13 @@ const NewFornecedor: React.FC = () => {
                       Criar
                     </SubmitButton>
                     <Button htmlType="reset">Limpar</Button>
-                  </Space>
+                  </Flex>
                 </Form.Item>
               </Form>
             </Flex>
         </Content>
         <CommomFooter />
+      </Layout>
     </Layout>
   );
 };

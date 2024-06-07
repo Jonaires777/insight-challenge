@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Fornecedor } from "./services/FornecedorService";
 import CommomHeader from "./components/common/CommomHeader";
 import CommomFooter from "./components/common/CommomFooter";
+import useWindowSize from "./hooks/useWindowSize";
 
 const { Sider, Content } = Layout;
 
@@ -14,6 +15,7 @@ const App: React.FC = () => {
   const [fornecedores, setFornecedores] = useState<Fornecedor[]>();
 
   const navigate = useNavigate();
+  const { width } = useWindowSize();
 
   const handleNavigate = (link: string) => {
     navigate(link);
@@ -30,6 +32,7 @@ const App: React.FC = () => {
         collapsible
         collapsed={collapsed}
         breakpoint="sm"
+        width={width >= 768 ? 200 : 60}
         collapsedWidth="0"
         onBreakpoint={(broken) => {
           setCollapsed(broken);

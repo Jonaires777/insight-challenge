@@ -15,7 +15,7 @@ const CommomFooter = () => {
             </a>
             <a  href="https://www.instagram.com/jonaires__/" className="flex gap-2 items-center">
               <p>Instagram</p>
-              <InstagramOutlined size={24} />{" "}
+              <InstagramOutlined size={24} />
             </a>
           </div>
         </Footer>

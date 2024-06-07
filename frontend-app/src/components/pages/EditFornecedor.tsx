@@ -1,4 +1,4 @@
-import { Button, Form, Input, Layout, Menu, message, Space } from "antd";
+import { Button, Flex, Form, Input, Layout, Menu, message, Space } from "antd";
 import fornecedorService from "../../services/FornecedorService";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -8,6 +8,8 @@ import Sider from "antd/es/layout/Sider";
 import SubmitButton from "../common/SubmitButton";
 import CommomFooter from "../common/CommomFooter";
 import CommomHeader from "../common/CommomHeader";
+import useWindowSize from "../../hooks/useWindowSize";
+
 
 type FormData = {
   nome: string;
@@ -19,21 +21,11 @@ type FormData = {
   nomeRepresentante: string;
 };
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 14 },
-  },
-};
-
 const EditFornecedor: React.FC = () => {
   const location = useLocation();
   const [submittable, setSubmittable] = useState<boolean>(false);
   const [collapsed, setCollapsed] = useState(false);
+  const { width } = useWindowSize();
 
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -77,13 +69,13 @@ const EditFornecedor: React.FC = () => {
 
   return (
     <div>
-      <Layout className="min-h-screen">
+      <Layout className="overflow-x-hidden min-h-screen">
         <Sider trigger={null} collapsible collapsed={collapsed} breakpoint="sm"
-        collapsedWidth="60"
+        collapsedWidth="0"
+        width={width >= 768 ? 200 : 60}
         onBreakpoint={(broken) => {
           setCollapsed(broken);
         }}>
-          <div />
           <Menu
             theme="dark"
             mode="inline"
@@ -106,15 +98,14 @@ const EditFornecedor: React.FC = () => {
         </Sider>
         <Layout>
           <CommomHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-          <Content className="flex justify-center">
-            <div className="flex flex-col justify-center md:w-2/4">
-              <div>
+          <Content className="flex justify-center h-2/4 md:h-full">
+            <Flex className="w-full" align="center" justify="center">
                 <Form
                   form={form}
-                  {...formItemLayout}
+                  layout="vertical"
                   variant="filled"
                   style={{ maxWidth: 600 }}
-                  className="border-2 p-2 rounded-md"
+                  className="border-2 p-2 m-2 rounded-md w-full md:w-2/4"
                   onFinish={handleSubmit}
                 >
                   <Form.Item
@@ -201,8 +192,8 @@ const EditFornecedor: React.FC = () => {
                   >
                     <Input />
                   </Form.Item>
-                  <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
-                    <Space>
+                  <Form.Item>
+                    <Flex gap={"small"} align="center" justify="center" className="w-full">
                       <SubmitButton
                         form={form}
                         setSubmittable={setSubmittable}
@@ -211,11 +202,10 @@ const EditFornecedor: React.FC = () => {
                         Editar
                       </SubmitButton>
                       <Button htmlType="reset">Limpar</Button>
-                    </Space>
+                    </Flex>
                   </Form.Item>
                 </Form>
-              </div>
-            </div>
+              </Flex>
           </Content>
           <CommomFooter />
         </Layout>

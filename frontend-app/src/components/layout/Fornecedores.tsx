@@ -1,5 +1,9 @@
-import { Space, Table } from "antd";
-import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { List, Popconfirm, Space, Table } from "antd";
+import {
+  DeleteOutlined,
+  EyeOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import type { TableColumnsType } from "antd";
 import fornecedorService, {
@@ -80,25 +84,21 @@ const Fornecedores = ({ fornecedores, setFornecedores }: FornecedoresProps) => {
       title: "Nome",
       dataIndex: "nome",
       key: "nome",
-      responsive: ["sm"],
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      responsive: ["sm"],
     },
     {
       title: "Produtos/Serviços",
       dataIndex: "produtosServicos",
       key: "produtosServicos",
-      responsive: ["sm"],
     },
     {
       title: "Endereço",
       dataIndex: "endereco",
       key: "endereco",
-      responsive: ["sm"],
     },
     {
       title: "Ação",
@@ -106,26 +106,47 @@ const Fornecedores = ({ fornecedores, setFornecedores }: FornecedoresProps) => {
       render: (record: Fornecedor) => (
         <Space size="middle">
           <a className="">
-            <DeleteOutlined onClick={() => handleDelete(record.id)} />{" "}
+            <Popconfirm
+              placement="topLeft"
+              onConfirm={() => handleDelete(record.id)}
+              title="Deletar um funcionário"
+              description="Tem certeza que deseja deletar este funcionário ?"
+              icon={
+                <ExclamationCircleOutlined
+                  style={{
+                    color: "red",
+                  }}
+                />
+              }
+            >
+              <DeleteOutlined />
+            </Popconfirm>
           </a>
           <a>
             <EyeOutlined onClick={() => handleVisualize(record.id)} />
           </a>
         </Space>
       ),
-      responsive: ["sm"],
     },
   ];
 
   return (
     <>
-      <Table
-        dataSource={fornecedores?.map((fornecedor) => ({
-          ...fornecedor,
-          key: fornecedor.id,
-        }))}
-        columns={collumns}
-      />
+      <div className="w-full overflow-auto">
+        <Table
+          dataSource={fornecedores?.map((fornecedor) => ({
+            ...fornecedor,
+            key: fornecedor.id,
+          }))}
+          columns={collumns}
+        />
+      </div>
+      {/* <List dataSource={fornecedores} renderItem={(fornecedor) => (<List.Item>
+        <List.Item.Meta
+          title={fornecedor.nome}
+          description={`Email:${fornecedor.email} - Produtos/Serviços${fornecedor.produtosServicos} - Endereço: ${fornecedor.endereco}`}
+        />
+      </List.Item>)}/> */}
       <FornecedorModal
         content={selectedFornecedor}
         open={open}
