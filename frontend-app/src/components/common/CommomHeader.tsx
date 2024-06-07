@@ -17,7 +17,7 @@ const CommomHeader = ({ collapsed, setCollapsed}: CommomHeaderProps) => {
     
     return(
         <Header
-            className="flex gap-4 border-b-2"
+            className="flex border-b-2"
             style={{ padding: 0, background: colorBgContainer }}
           >
             <Button

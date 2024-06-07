@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, Input, Layout, Menu, message, Space } from "antd";
+import { Button, Flex, Form, Input, Layout, Menu, message, Space } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
@@ -17,17 +17,6 @@ type FormData = {
   produtosServicos: string;
   endereco: string;
   nomeRepresentante: string;
-};
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 14 },
-  },
 };
 
 const NewFornecedor: React.FC = () => {
@@ -51,13 +40,13 @@ const NewFornecedor: React.FC = () => {
   };
 
   return (
-    <Layout className="min-h-screen">
+    <Layout className="!flex min-h-screen">
       <Sider
         trigger={null}
         collapsible
         collapsed={collapsed}
         breakpoint="sm"
-        collapsedWidth="60"
+        collapsedWidth="0"
         onBreakpoint={(broken) => {
           setCollapsed(broken);
         }}
@@ -77,17 +66,14 @@ const NewFornecedor: React.FC = () => {
           ]}
         />
       </Sider>
-      <Layout>
         <CommomHeader collapsed={collapsed} setCollapsed={setCollapsed} />
         <Content className="flex justify-center h-2/4 md:h-full">
-          <div className="flex flex-col justify-center md:w-2/4">
-            <div>
+          <Flex className="w-full" align="center" justify="center">
               <Form
                 form={form}
-                {...formItemLayout}
+                layout="vertical"
                 variant="filled"
-                style={{ maxWidth: 600 }}
-                className="border-2 p-2 rounded-md"
+                className="border-2 p-2 m-2 rounded-md w-full md:w-2/4"
                 onFinish={handleSubmit}
               >
                 <Form.Item
@@ -187,11 +173,9 @@ const NewFornecedor: React.FC = () => {
                   </Space>
                 </Form.Item>
               </Form>
-            </div>
-          </div>
+            </Flex>
         </Content>
         <CommomFooter />
-      </Layout>
     </Layout>
   );
 };

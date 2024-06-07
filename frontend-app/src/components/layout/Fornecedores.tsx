@@ -80,25 +80,25 @@ const Fornecedores = ({ fornecedores, setFornecedores }: FornecedoresProps) => {
       title: "Nome",
       dataIndex: "nome",
       key: "nome",
-      responsive: ["md"],
+      responsive: ["sm"],
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      responsive: ["md"],
+      responsive: ["sm"],
     },
     {
       title: "Produtos/Serviços",
       dataIndex: "produtosServicos",
       key: "produtosServicos",
-      responsive: ["md"],
+      responsive: ["sm"],
     },
     {
       title: "Endereço",
       dataIndex: "endereco",
       key: "endereco",
-      responsive: ["md"],
+      responsive: ["sm"],
     },
     {
       title: "Ação",
@@ -113,7 +113,7 @@ const Fornecedores = ({ fornecedores, setFornecedores }: FornecedoresProps) => {
           </a>
         </Space>
       ),
-      responsive: ["md"],
+      responsive: ["sm"],
     },
   ];
 

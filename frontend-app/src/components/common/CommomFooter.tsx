@@ -4,7 +4,7 @@ import { Footer } from "antd/es/layout/layout"
 const CommomFooter = () => {
     return(
         <Footer className="border-t-2">
-          <div className="flex gap-4 items-center justify-center">
+          <div className="flex max-md:grid gap-4 items-center justify-center">
             <a href="https://www.linkedin.com/in/jonaires/" className="flex gap-2 items-center">
               <p>Linkedin</p>
               <LinkedinOutlined size={24} />
