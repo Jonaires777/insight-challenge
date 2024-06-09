@@ -50,7 +50,7 @@ public class FornecedorController {
         return ResponseEntity.notFound().build();
     }
 
-    @CrossOrigin(origins = "https://insight-challenge-2v6r2wxtu-jonaires777s-projects.vercel.app")
+    @CrossOrigin(origins = "https://insight-challenge-snowy.vercel.app")
     @PutMapping("/edit/{id}")
     public ResponseEntity<Fornecedor> updateFornecedor(@RequestBody FornecedorDTO fornecedorDTO, @PathVariable String id) {
         Fornecedor fornecedor = fornecedorService.dtoMapperToEntity(fornecedorDTO);
@@ -59,7 +59,7 @@ public class FornecedorController {
         return ResponseEntity.ok().body(updatedFornecedor);
     }
 
-    @CrossOrigin(origins = "https://insight-challenge-2v6r2wxtu-jonaires777s-projects.vercel.app")
+    @CrossOrigin(origins = "https://insight-challenge-snowy.vercel.app")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFornecedor(@PathVariable String id) {
         Optional<Fornecedor> fornecedor = fornecedorService.findByIdFornecedor(id);
