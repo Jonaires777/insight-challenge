@@ -1,0 +1,35 @@
+services:
+  mongodb:
+    image: mongo:5.0.27
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+
+  backend:
+    image: back:latest
+    build: backend
+    container_name: backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/insight-challenge
+      - MONGO_DATABSE=insight-challenge
+
+  frontend:
+    image: front:latest
+    build: frontend-app
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:
