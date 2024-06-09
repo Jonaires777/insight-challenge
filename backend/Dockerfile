@@ -1,4 +1,4 @@
-FROM maven:3.8.5-openjdk-21 AS base
+FROM maven:3.9.7-eclipse-temurin-21 AS base
 
 FROM base AS deps
 
